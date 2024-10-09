@@ -1,0 +1,52 @@
+type Query{
+    query: String
+    secondQuery: String
+    fullName(firstName:String,lastName:String):String
+    fullNameUsingRequest(sampleRequest:SampleRequest):String
+    student(id: Int): StudentResponse
+}
+
+input SampleRequest {
+    firstName:String!
+    lastName: String
+}
+
+#old response
+#type StudentResponse{
+#    id : Int,
+#    firstName:String,
+#    lastName: String,
+#    email: String,
+#    street:String,
+#    city:String,
+#    fullName: String,
+#
+#    learningSubjects: [SubjectResponse]
+#}
+
+#new response which accepts filter
+type StudentResponse{
+    id : Int,
+    firstName:String,
+    lastName: String,
+    email: String,
+    street:String,
+    city:String,
+    fullName: String,
+    learningSubjects(subjectNameFilter: [SubjectFilter]): [SubjectResponse]
+}
+
+type SubjectResponse {
+    id: Int,
+    subjectName: String,
+    marksObtained: Float
+}
+
+#Since we have declared enum type in java enums and we are accepting
+#this enum from front , we need to define it here too as it is (as enum)
+enum SubjectFilter{
+    All,
+    Java,
+    MySQL,
+    MongoDB
+}
